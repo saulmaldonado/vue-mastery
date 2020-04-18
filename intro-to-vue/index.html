@@ -15,27 +15,35 @@
             </div>
 
             <div class="product-info">
-                <h1>{{ product }}</h1>
-                <h2>Description: {{description}}</h2>
+                <h1>{{ title }}</h1>
+                <h2>Description: {{ description }}</h2>
                 <p v-if="onSale">On Sale!</p>
-                <p v-if="inventory > 10">In Stock</p>
-                <p v-else-if="inventory <= 10 && inventory > 0"> Almost out of stock </p>
-                <p v-else>Out of Stock</p>
-                <p v-show="inventory">Current Stock: {{inventory}}</p>
+                <p v-if="stock > 10">In stock</p>
+                <p v-else-if="stock <= 10 && stock > 0"> Almost out of stock </p>
+                <p v-else 
+                   :class="[stock < 1 ? 'sutOfStock' : '']">Out of stock</p>
+                <p v-show="stock">Current stock: {{ stock }}</p>
                 <ul>
-                    <li v-for="detail in details">{{detail}}</li>
+                    <li v-for="detail in details">{{ detail }}</li>
                 </ul>
-                <div v-for="variant in variants" :key="variant.variantId" >
-                    <p @mouseover="updateProduct(variant.variantImage)">{{variant.variantColor}}</p>
+                <div v-for="(variant, index) in variants" 
+                     :key="variant.variantId"
+                     class="color-box"
+                     :style="{ backgroundColor: variant.variantColor }"
+                     @mouseover="updateProduct(index)">
                 </div>
+
                 <ul>
-                    <li v-for="size in sizes">{{size}}</li>
+                    <li v-for="size in sizes">{{ size }}</li>
                 </ul>
 
-                <button v-on:click="addToCart">Add to Cart</button>
+                <button @click="addToCart"
+                        :disabled="stock < 1"
+                        :class="{ disabledButton: stock < 1 }">Add to Cart</button>
+                <button @click="removeFromCart">Remove from Cart</button>
 
                 <div class="cart">
-                    <p>Cart ({{cart}})</p>
+                    <p>Cart ({{ cart }})</p>
                 </div>
             </div>
 
