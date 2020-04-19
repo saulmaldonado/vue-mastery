@@ -283,7 +283,7 @@ Vue.component('product-tabs', {
 const app = new Vue({
     el: '#app',
     data: {
-        premium: true,
+        premium: false,
         cart: [],
     },
     methods: {
